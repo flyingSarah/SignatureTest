@@ -67,4 +67,16 @@ Rectangle
             sigCanvas.requestPaint();
         }
     }
+
+    TextArea
+    {
+        width: parent.width - 20
+        height: 100
+        anchors.bottom: parent.bottom
+        x: 10
+
+        //in a real app this would display the name of the merchant
+        text: "X_________________________________________________________________" +
+              "\n\nI agree to pay the above amount to <NAME_OF_MERCHANT>.";
+    }
 }
