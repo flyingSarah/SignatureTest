@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>main.qml</file>
+        <file>QML/main.qml</file>
+        <file>QML/SignCanvas.qml</file>
     </qresource>
 </RCC>
