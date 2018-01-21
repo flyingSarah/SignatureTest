@@ -44,7 +44,6 @@ Rectangle
                 parent.context.beginPath();
             }
             onReleased: {
-                parent.context.closePath();
                 addSegmentToGesture(segment);
             }
             onPositionChanged: {
