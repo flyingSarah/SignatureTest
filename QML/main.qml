@@ -30,6 +30,18 @@ ApplicationWindow
     PostSignature
     {
         id: postSignature
+
+        onStatusChanged: {
+            if(status)
+            {
+                postRequestFailedDialog.detailedText = error;
+                postRequestFailedDialog.open();
+            }
+            else
+            {
+                postRequestSuccessDialog.open();
+            }
+        }
     }
 
     ColumnLayout
@@ -95,6 +107,8 @@ ApplicationWindow
         }
     }
 
+    // ----------------------------------------------------- Message Dialogs
+
     MessageDialog
     {
         id: emptyCanvasOnPayDialog
@@ -102,6 +116,24 @@ ApplicationWindow
         text: "Empty Signature Error"
         informativeText: "Please sign in the space provided."
         icon: StandardIcon.Warning
+        onAccepted: close()
+    }
+
+    MessageDialog
+    {
+        id: postRequestFailedDialog
+        text: "Network Error"
+        informativeText: "The request to send your signature failed. Please try again."
+        icon: StandardIcon.Critical
+        onAccepted: close()
+    }
+
+    MessageDialog
+    {
+        id: postRequestSuccessDialog
+        text: "Success!"
+        informativeText: "Your signature has been sent."
+        icon: StandardIcon.Information
         onAccepted: close()
     }
 }

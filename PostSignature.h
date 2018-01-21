@@ -6,15 +6,26 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QJsonDocument>
+#include <QtNetwork>
 
 class PostSignature : public QObject
 {
     Q_OBJECT
+
 public:
     PostSignature(QObject *parent = 0);
 
     Q_INVOKABLE QJsonDocument parseData(QJsonArray gesture, int time, int tries);
-    Q_INVOKABLE bool sendPostRequest(QJsonDocument data);
+    Q_INVOKABLE void sendPostRequest(QJsonDocument data);
+
+public slots:
+    void replyFinished(QNetworkReply *reply);
+
+signals:
+    void statusChanged(int status, QString error);
+
+private:
+    QNetworkAccessManager *manager;
 };
 
 #endif // POSTSIGNATURE_H
