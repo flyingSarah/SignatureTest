@@ -21,6 +21,11 @@ ApplicationWindow
         id: signGesture
     }
 
+    SignTimer
+    {
+        id: signTimer
+    }
+
     ColumnLayout
     {
         width: 440
@@ -49,6 +54,10 @@ ApplicationWindow
 
             onClearGesture: signGesture.clear()
             onAddSegmentToGesture: signGesture.appendSegment(segment)
+
+            onStartTimer: signTimer.start();
+            onSetLastTimestamp: signTimer.setSignTime();
+            onStopTimer: signTimer.stop();
         }
 
         Button
@@ -66,7 +75,8 @@ ApplicationWindow
 
             onClicked: {
                 signGesture.print(signGesture.getGesture());
-                signCanvas.clearCanvas();
+                console.log("time", signTimer.getSignTime(), "tries", signCanvas.clearCount);
+                signCanvas.onPay();
             }
         }
     }

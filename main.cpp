@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "Gesture.h"
+#include "SignTimer.h"
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +12,7 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     qmlRegisterType<Gesture>("com.swhitley.classes", 1, 0, "Gesture");
+    qmlRegisterType<SignTimer>("com.swhitley.classes", 1, 0, "SignTimer");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/QML/main.qml")));

@@ -6,9 +6,15 @@ Rectangle
     id: canvasContainer
 
     property var segment: []
+    property bool readyToStartTimer: true
+    property int clearCount: 0
 
     signal addSegmentToGesture(var segment);
     signal clearGesture();
+
+    signal startTimer();
+    signal setLastTimestamp();
+    signal stopTimer();
 
     border.width: 1
     border.color: "light gray"
@@ -40,10 +46,17 @@ Rectangle
             anchors.fill: parent
 
             onPressed: {
-                segment = []
+                if(readyToStartTimer)
+                {
+                    startTimer();
+                }
+                readyToStartTimer = false;
+
+                segment = [];
                 parent.context.beginPath();
             }
             onReleased: {
+                setLastTimestamp();
                 addSegmentToGesture(segment);
             }
             onPositionChanged: {
@@ -73,6 +86,7 @@ Rectangle
 
         onClicked: {
             clearCanvas();
+            clearCount++;
         }
     }
 
@@ -92,7 +106,19 @@ Rectangle
     {
         canvas.context.reset();
         canvas.requestPaint();
+
         segment = [];
         clearGesture();
+    }
+
+    function onPay()
+    {
+        //reset timer
+        stopTimer();
+        readyToStartTimer = true;
+        //reset clear count
+        clearCount = 0;
+
+        clearCanvas();
     }
 }
