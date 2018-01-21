@@ -14,7 +14,10 @@ void Gesture::appendSegment(QJsonArray gestureSegment)
 
 void Gesture::clear()
 {
-    m_gesture.empty();
+    while(m_gesture.count())
+    {
+        m_gesture.pop_back();
+    }
 }
 
 bool Gesture::print(QJsonArray gesture)

@@ -11,7 +11,6 @@ int SignTimer::getSignTime()
 void SignTimer::setSignTime()
 {
     m_signTime = m_time->elapsed();
-    qDebug() << "sign time:" << m_signTime;
 }
 
 void SignTimer::start()
