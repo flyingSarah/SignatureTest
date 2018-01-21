@@ -19,8 +19,3 @@ void Gesture::clear()
         m_gesture.pop_back();
     }
 }
-
-bool Gesture::print(QJsonArray gesture)
-{
-    qDebug() << gesture;
-}

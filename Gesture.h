@@ -17,8 +17,6 @@ public:
     Q_INVOKABLE void appendSegment(QJsonArray gestureSegment);
     Q_INVOKABLE void clear();
 
-    Q_INVOKABLE bool print(QJsonArray gesture);
-
 private:
     QJsonArray m_gesture;
 

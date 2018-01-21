@@ -14,7 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp \
     Gesture.cpp \
-    SignTimer.cpp
+    SignTimer.cpp \
+    PostSignature.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,4 +32,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     Gesture.h \
-    SignTimer.h
+    SignTimer.h \
+    PostSignature.h

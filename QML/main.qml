@@ -26,6 +26,11 @@ ApplicationWindow
         id: signTimer
     }
 
+    PostSignature
+    {
+        id: postSignature
+    }
+
     ColumnLayout
     {
         width: 440
@@ -74,8 +79,8 @@ ApplicationWindow
             }
 
             onClicked: {
-                signGesture.print(signGesture.getGesture());
-                console.log("time", signTimer.getSignTime(), "tries", signCanvas.clearCount);
+                var parsedData = postSignature.parseData(signGesture.getGesture(), signTimer.getSignTime(), signCanvas.countClearClicks);
+                postSignature.sendPostRequest(parsedData);
                 signCanvas.onPay();
             }
         }

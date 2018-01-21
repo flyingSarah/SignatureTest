@@ -7,7 +7,7 @@ Rectangle
 
     property var segment: []
     property bool readyToStartTimer: true
-    property int clearCount: 0
+    property int countClearClicks: 0
 
     signal addSegmentToGesture(var segment);
     signal clearGesture();
@@ -86,7 +86,7 @@ Rectangle
 
         onClicked: {
             clearCanvas();
-            clearCount++;
+            countClearClicks++;
         }
     }
 
@@ -117,7 +117,7 @@ Rectangle
         stopTimer();
         readyToStartTimer = true;
         //reset clear count
-        clearCount = 0;
+        countClearClicks = 0;
 
         clearCanvas();
     }
