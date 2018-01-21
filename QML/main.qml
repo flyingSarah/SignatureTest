@@ -2,6 +2,7 @@ import QtQuick 2.6
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.2
 
 import com.swhitley.classes 1.0
 
@@ -79,10 +80,28 @@ ApplicationWindow
             }
 
             onClicked: {
-                var parsedData = postSignature.parseData(signGesture.getGesture(), signTimer.getSignTime(), signCanvas.countClearClicks);
-                postSignature.sendPostRequest(parsedData);
+                var gesture = signGesture.getGesture();
+                if(gesture.length < 1)
+                {
+                    emptyCanvasOnPayDialog.open();
+                }
+                else
+                {
+                    var parsedData = postSignature.parseData(gesture, signTimer.getSignTime(), signCanvas.countClearClicks);
+                    postSignature.sendPostRequest(parsedData);
+                }
                 signCanvas.onPay();
             }
         }
+    }
+
+    MessageDialog
+    {
+        id: emptyCanvasOnPayDialog
+
+        text: "Empty Signature Error"
+        informativeText: "Please sign in the space provided."
+        icon: StandardIcon.Warning
+        onAccepted: close()
     }
 }
