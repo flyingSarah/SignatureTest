@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include "Gesture.h"
 
 int main(int argc, char *argv[])
 {
@@ -8,6 +9,8 @@ int main(int argc, char *argv[])
 #endif
 
     QGuiApplication app(argc, argv);
+
+    qmlRegisterType<Gesture>("com.swhitley.classes", 1, 0, "Gesture");
 
     QQmlApplicationEngine engine;
     engine.load(QUrl(QStringLiteral("qrc:/QML/main.qml")));

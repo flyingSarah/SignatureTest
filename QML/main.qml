@@ -3,14 +3,23 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 
+import com.swhitley.classes 1.0
+
 ApplicationWindow
 {
     visible: true
 
-    width: 480
-    height: 480
+    minimumWidth: 480
+    minimumHeight: 480
+    maximumWidth: 480
+    maximumHeight: 480
 
     title: qsTr("Signature Test")
+
+    Gesture
+    {
+        id: signGesture
+    }
 
     ColumnLayout
     {
@@ -33,8 +42,13 @@ ApplicationWindow
 
         SignCanvas
         {
+            id: signCanvas
+
             Layout.fillWidth: true
             height: 350
+
+            onClearGesture: signGesture.clear()
+            onAddSegmentToGesture: signGesture.appendSegment(segment)
         }
 
         Button
@@ -49,7 +63,11 @@ ApplicationWindow
             background: Rectangle {
                 color: payButton.down ? "gray" : "light gray"
             }
-        }
 
+            onClicked: {
+                signGesture.print(signGesture.getGesture());
+                signCanvas.clearCanvas();
+            }
+        }
     }
 }

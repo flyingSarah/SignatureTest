@@ -5,12 +5,17 @@ Rectangle
 {
     id: canvasContainer
 
+    property var segment: []
+
+    signal addSegmentToGesture(var segment);
+    signal clearGesture();
+
     border.width: 1
     border.color: "light gray"
 
     Canvas
     {
-        id: sigCanvas
+        id: canvas
 
         property int xpos
         property int ypos
@@ -25,6 +30,9 @@ Rectangle
             context.lineWidth = 1;
             context.lineTo(xpos, ypos);
             context.stroke();
+
+            segment.push(xpos);
+            segment.push(ypos);
         }
 
         MouseArea
@@ -32,10 +40,12 @@ Rectangle
             anchors.fill: parent
 
             onPressed: {
+                segment = []
                 parent.context.beginPath();
             }
             onReleased: {
                 parent.context.closePath();
+                addSegmentToGesture(segment);
             }
             onPositionChanged: {
                 parent.xpos = mouseX;
@@ -63,8 +73,7 @@ Rectangle
         }
 
         onClicked: {
-            sigCanvas.context.reset();
-            sigCanvas.requestPaint();
+            clearCanvas();
         }
     }
 
@@ -78,5 +87,13 @@ Rectangle
         //in a real app this would display the name of the merchant
         text: "X_________________________________________________________________" +
               "\n\nI agree to pay the above amount to <NAME_OF_MERCHANT>.";
+    }
+
+    function clearCanvas()
+    {
+        canvas.context.reset();
+        canvas.requestPaint();
+        segment = [];
+        clearGesture();
     }
 }
