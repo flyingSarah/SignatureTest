@@ -5,22 +5,25 @@ SignTimer::SignTimer(QObject *parent) : QObject(parent),
 
 int SignTimer::getSignTime()
 {
-    return m_signTime;
+    if(m_timer.isValid())
+    {
+        return m_signTime;
+    }
+    return 0;
 }
 
 void SignTimer::setSignTime()
 {
-    m_signTime = m_time->elapsed();
+    m_signTime = m_timer.elapsed();
 }
 
 void SignTimer::start()
 {
     m_signTime = 0;
-    m_time = new QTime();
-    m_time->start();
+    m_timer.start();
 }
 
 void SignTimer::stop()
 {
-    delete m_time;
+    m_timer.invalidate();
 }

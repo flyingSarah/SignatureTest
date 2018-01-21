@@ -3,7 +3,7 @@
 
 #include <QObject>
 #include <QDebug>
-#include <QTime>
+#include <QElapsedTimer>
 
 class SignTimer : public QObject
 {
@@ -19,7 +19,7 @@ public:
     Q_INVOKABLE void stop();
 
 private:
-    QTime *m_time;
+    QElapsedTimer m_timer;
     int m_signTime;
 
 };
