@@ -42,5 +42,5 @@ void PostSignature::replyFinished(QNetworkReply *reply)
         qDebug() << json;
     }
 
-    emit statusChanged(reply->error(), reply->errorString());
+    emit signatureReply(reply->error(), reply->errorString());
 }

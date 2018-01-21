@@ -22,7 +22,7 @@ public slots:
     void replyFinished(QNetworkReply *reply);
 
 signals:
-    void statusChanged(int status, QString error);
+    void signatureReply(int status, QString error);
 
 private:
     QNetworkAccessManager *manager;

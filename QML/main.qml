@@ -31,7 +31,7 @@ ApplicationWindow
     {
         id: postSignature
 
-        onStatusChanged: {
+        onSignatureReply: {
             if(status)
             {
                 postRequestFailedDialog.detailedText = error;
