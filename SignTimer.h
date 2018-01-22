@@ -1,5 +1,4 @@
-#ifndef SIGNTIMER_H
-#define SIGNTIMER_H
+#pragma once
 
 #include <QObject>
 #include <QDebug>
@@ -11,7 +10,7 @@ class SignTimer : public QObject
     Q_PROPERTY(int signTime READ getSignTime)
 
 public:
-    SignTimer(QObject *parent = 0);
+    SignTimer(QObject *parent = nullptr);
 
     Q_INVOKABLE int getSignTime();
     Q_INVOKABLE void setSignTime();
@@ -23,5 +22,3 @@ private:
     int m_signTime;
 
 };
-
-#endif // SIGNTIMER_H

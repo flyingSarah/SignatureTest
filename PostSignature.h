@@ -1,5 +1,4 @@
-#ifndef POSTSIGNATURE_H
-#define POSTSIGNATURE_H
+#pragma once
 
 #include <QObject>
 #include <QDebug>
@@ -13,7 +12,7 @@ class PostSignature : public QObject
     Q_OBJECT
 
 public:
-    PostSignature(QObject *parent = 0);
+    PostSignature(QObject *parent = nullptr);
 
     Q_INVOKABLE QJsonDocument parseData(QJsonArray gesture, int time, int tries);
     Q_INVOKABLE void sendPostRequest(QJsonDocument data);
@@ -25,7 +24,5 @@ signals:
     void signatureReply(int status, QString error);
 
 private:
-    QNetworkAccessManager *manager;
+    QScopedPointer<QNetworkAccessManager> m_manager;
 };
-
-#endif // POSTSIGNATURE_H

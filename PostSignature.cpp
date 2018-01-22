@@ -1,9 +1,9 @@
 #include "PostSignature.h"
 
-PostSignature::PostSignature(QObject *parent) : QObject(parent)
+PostSignature::PostSignature(QObject *parent) : QObject(parent),
+    m_manager(new QNetworkAccessManager(this))
 {
-    manager = new QNetworkAccessManager(this);
-    connect(manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)));
+    connect(m_manager.data(), &QNetworkAccessManager::finished, this, &PostSignature::replyFinished);
 }
 
 QJsonDocument PostSignature::parseData(QJsonArray gesture, int time, int tries)
@@ -26,11 +26,11 @@ void PostSignature::sendPostRequest(QJsonDocument data)
     QNetworkRequest request(QUrl("https://putsreq.com/F8PsIYZ0cD3edRbaa9Rb"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    manager->post(request, data.toJson());
+    m_manager.data()->post(request, data.toJson());
     //QJsonObject testObj;
     //testObj.insert("fail", ":(");
     //QJsonDocument testDoc(testObj);
-    //manager->post(request, testDoc.toJson());
+    //m_manager.data()->post(request, testDoc.toJson());
 }
 
 void PostSignature::replyFinished(QNetworkReply *reply)
@@ -43,4 +43,6 @@ void PostSignature::replyFinished(QNetworkReply *reply)
     }
 
     emit signatureReply(reply->error(), reply->errorString());
+
+    reply->deleteLater();
 }

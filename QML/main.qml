@@ -17,20 +17,9 @@ ApplicationWindow
 
     title: qsTr("Signature Test")
 
-    Gesture
+    Connections
     {
-        id: signGesture
-    }
-
-    SignTimer
-    {
-        id: signTimer
-    }
-
-    PostSignature
-    {
-        id: postSignature
-
+        target: postSignature
         onSignatureReply: {
             if(status)
             {
@@ -39,9 +28,20 @@ ApplicationWindow
             }
             else
             {
-                postRequestSuccessDialog.open();
+                postRequestSuccessDialog.open()
             }
         }
+
+    }
+
+    Gesture
+    {
+        id: signGesture
+    }
+
+    SignTimer
+    {
+        id: signTimer
     }
 
     ColumnLayout

@@ -1,5 +1,4 @@
-#ifndef GESTURE_H
-#define GESTURE_H
+#pragma once
 
 #include <QObject>
 #include <QDebug>
@@ -11,7 +10,7 @@ class Gesture : public QObject
     Q_PROPERTY(QJsonArray gesture READ getGesture WRITE appendSegment)
 
 public:
-    Gesture(QObject *parent = 0);
+    Gesture(QObject *parent = nullptr);
 
     Q_INVOKABLE QJsonArray getGesture();
     Q_INVOKABLE void appendSegment(QJsonArray gestureSegment);
@@ -21,5 +20,3 @@ private:
     QJsonArray m_gesture;
 
 };
-
-#endif // GESTURE_H
