@@ -18,7 +18,7 @@ public:
     Q_INVOKABLE void sendPostRequest(QJsonDocument data);
 
 public slots:
-    void replyFinished(QNetworkReply *reply);
+    void onReplyFinished(QNetworkReply *reply);
 
 signals:
     void signatureReply(int status, QString error);

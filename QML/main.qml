@@ -31,7 +31,6 @@ ApplicationWindow
                 postRequestSuccessDialog.open()
             }
         }
-
     }
 
     Gesture
@@ -90,10 +89,10 @@ ApplicationWindow
                 }
                 else
                 {
-                    var parsedData = postSignature.parseData(gesture, signCanvas.getSignEndTime(), signCanvas.countClearClicks);
+                    var parsedData = postSignature.parseData(gesture, signCanvas.signEndTime, signCanvas.countClearClicks);
                     postSignature.sendPostRequest(parsedData);
                 }
-                signCanvas.onPay();
+                signCanvas.reset();
             }
         }
     }
@@ -104,8 +103,8 @@ ApplicationWindow
     {
         id: emptyCanvasOnPayDialog
 
-        text: "Empty Signature Error"
-        informativeText: "Please sign in the space provided."
+        text: qsTr("Empty Signature Error")
+        informativeText: qsTr("Please sign in the space provided.")
         icon: StandardIcon.Warning
         onAccepted: close()
     }
@@ -113,8 +112,8 @@ ApplicationWindow
     MessageDialog
     {
         id: postRequestFailedDialog
-        text: "Network Error"
-        informativeText: "The request to send your signature failed. Please try again."
+        text: qsTr("Network Error")
+        informativeText: qsTr("The request to send your signature failed. Please try again.")
         icon: StandardIcon.Critical
         onAccepted: close()
     }
@@ -122,8 +121,8 @@ ApplicationWindow
     MessageDialog
     {
         id: postRequestSuccessDialog
-        text: "Success!"
-        informativeText: "Your signature has been sent."
+        text: qsTr("Success!")
+        informativeText: qsTr("Your signature has been sent.")
         icon: StandardIcon.Information
         onAccepted: close()
     }

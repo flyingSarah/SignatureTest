@@ -25,20 +25,31 @@ Rectangle
 
         property int xpos
         property int ypos
-        property var context
+        property bool triggerBeginPath
+        property bool triggerReset
 
         anchors.fill: parent
 
         onPaint: {
-            context = getContext("2d");
+            var context = getContext("2d");
+
+            if(triggerBeginPath)
+            {
+                triggerBeginPath = false;
+                context.beginPath();
+            }
+            if(triggerReset)
+            {
+                triggerReset = false;
+                context.reset();
+            }
 
             context.strokeStyle = "black";
             context.lineWidth = 1;
             context.lineTo(xpos, ypos);
             context.stroke();
 
-            segment.push(xpos);
-            segment.push(ypos);
+            segment.push(xpos, ypos);
         }
 
         MouseArea
@@ -46,17 +57,23 @@ Rectangle
             anchors.fill: parent
 
             onPressed: {
+                parent.xpos = mouseX;
+                parent.ypos = mouseY;
+
                 if(signStartTime == 0)
                 {
                     signStartTime = new Date().getTime();
                 }
-
                 segment = [];
-                parent.context.beginPath();
+                parent.triggerBeginPath = true;
+                parent.requestPaint();
             }
             onReleased: {
-                signEndTime = new Date().getTime() - signStartTime;
+                parent.xpos = mouseX;
+                parent.ypos = mouseY;
+                parent.requestPaint();
 
+                signEndTime = new Date().getTime() - signStartTime;
                 addSegmentToGesture(segment);
             }
             onPositionChanged: {
@@ -104,25 +121,17 @@ Rectangle
 
     function clearCanvas()
     {
-        canvas.context.reset();
+        canvas.triggerReset = true;
         canvas.requestPaint();
 
         segment = [];
         clearGesture();
     }
 
-    function onPay()
+    function reset()
     {
-        //reset timer
         signStartTime = 0;
-        //reset clear count
         countClearClicks = 0;
-
         clearCanvas();
-    }
-
-    function getSignEndTime()
-    {
-        return signEndTime;
     }
 }

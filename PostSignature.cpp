@@ -3,7 +3,7 @@
 PostSignature::PostSignature(QObject *parent) : QObject(parent),
     m_manager(new QNetworkAccessManager(this))
 {
-    connect(m_manager.data(), &QNetworkAccessManager::finished, this, &PostSignature::replyFinished);
+    connect(m_manager.data(), &QNetworkAccessManager::finished, this, &PostSignature::onReplyFinished);
 }
 
 QJsonDocument PostSignature::parseData(QJsonArray gesture, int time, int tries)
@@ -33,14 +33,14 @@ void PostSignature::sendPostRequest(QJsonDocument data)
     //m_manager.data()->post(request, testDoc.toJson());
 }
 
-void PostSignature::replyFinished(QNetworkReply *reply)
+void PostSignature::onReplyFinished(QNetworkReply *reply)
 {
-    if(!reply->error())
+    /*if(!reply->error())
     {
         QByteArray responseData = reply->readAll();
         QJsonDocument json = QJsonDocument::fromJson(responseData);
         qDebug() << json;
-    }
+    }*/
 
     emit signatureReply(reply->error(), reply->errorString());
 
