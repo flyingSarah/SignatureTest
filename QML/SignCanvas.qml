@@ -1,20 +1,20 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.2
 
+import com.swhitley.classes 1.0
+
 Rectangle
 {
     id: canvasContainer
 
     property var segment: []
-    property bool readyToStartTimer: true
+    property double signStartTime: 0
+    property int signEndTime: 0
+
     property int countClearClicks: 0
 
     signal addSegmentToGesture(var segment);
     signal clearGesture();
-
-    signal startTimer();
-    signal setLastTimestamp();
-    signal stopTimer();
 
     border.width: 1
     border.color: "light gray"
@@ -46,17 +46,17 @@ Rectangle
             anchors.fill: parent
 
             onPressed: {
-                if(readyToStartTimer)
+                if(signStartTime == 0)
                 {
-                    startTimer();
+                    signStartTime = new Date().getTime();
                 }
-                readyToStartTimer = false;
 
                 segment = [];
                 parent.context.beginPath();
             }
             onReleased: {
-                setLastTimestamp();
+                signEndTime = new Date().getTime() - signStartTime;
+
                 addSegmentToGesture(segment);
             }
             onPositionChanged: {
@@ -114,11 +114,15 @@ Rectangle
     function onPay()
     {
         //reset timer
-        stopTimer();
-        readyToStartTimer = true;
+        signStartTime = 0;
         //reset clear count
         countClearClicks = 0;
 
         clearCanvas();
+    }
+
+    function getSignEndTime()
+    {
+        return signEndTime;
     }
 }

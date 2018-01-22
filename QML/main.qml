@@ -39,11 +39,6 @@ ApplicationWindow
         id: signGesture
     }
 
-    SignTimer
-    {
-        id: signTimer
-    }
-
     ColumnLayout
     {
         width: 440
@@ -72,10 +67,6 @@ ApplicationWindow
 
             onClearGesture: signGesture.clear()
             onAddSegmentToGesture: signGesture.appendSegment(segment)
-
-            onStartTimer: signTimer.start();
-            onSetLastTimestamp: signTimer.setSignTime();
-            onStopTimer: signTimer.stop();
         }
 
         Button
@@ -99,7 +90,7 @@ ApplicationWindow
                 }
                 else
                 {
-                    var parsedData = postSignature.parseData(gesture, signTimer.getSignTime(), signCanvas.countClearClicks);
+                    var parsedData = postSignature.parseData(gesture, signCanvas.getSignEndTime(), signCanvas.countClearClicks);
                     postSignature.sendPostRequest(parsedData);
                 }
                 signCanvas.onPay();
