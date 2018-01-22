@@ -13,11 +13,13 @@ Rectangle
 
     property int countClearClicks: 0
 
-    signal addSegmentToGesture(var segment);
-    signal clearGesture();
-
     border.width: 1
     border.color: "light gray"
+
+    Gesture
+    {
+        id: signGesture
+    }
 
     Canvas
     {
@@ -74,7 +76,7 @@ Rectangle
                 parent.requestPaint();
 
                 signEndTime = new Date().getTime() - signStartTime;
-                addSegmentToGesture(segment);
+                signGesture.appendSegment(segment);
             }
             onPositionChanged: {
                 parent.xpos = mouseX;
@@ -125,7 +127,7 @@ Rectangle
         canvas.requestPaint();
 
         segment = [];
-        clearGesture();
+        signGesture.clear();
     }
 
     function reset()
@@ -133,5 +135,10 @@ Rectangle
         signStartTime = 0;
         countClearClicks = 0;
         clearCanvas();
+    }
+
+    function getGesture()
+    {
+        return signGesture.getGesture();
     }
 }

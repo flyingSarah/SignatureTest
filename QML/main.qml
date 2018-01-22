@@ -4,8 +4,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
 import QtQuick.Dialogs 1.2
 
-import com.swhitley.classes 1.0
-
 ApplicationWindow
 {
     visible: true
@@ -33,11 +31,6 @@ ApplicationWindow
         }
     }
 
-    Gesture
-    {
-        id: signGesture
-    }
-
     ColumnLayout
     {
         width: 440
@@ -63,9 +56,6 @@ ApplicationWindow
 
             Layout.fillWidth: true
             height: 350
-
-            onClearGesture: signGesture.clear()
-            onAddSegmentToGesture: signGesture.appendSegment(segment)
         }
 
         Button
@@ -82,7 +72,7 @@ ApplicationWindow
             }
 
             onClicked: {
-                var gesture = signGesture.getGesture();
+                var gesture = signCanvas.getGesture();
                 if(gesture.length < 1)
                 {
                     emptyCanvasOnPayDialog.open();
