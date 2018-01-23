@@ -9,7 +9,7 @@ Rectangle
 
     property var segment: []
     property double signStartTime: 0
-    property int signEndTime: 0
+    property int signDuration: 0
 
     property int countClearClicks: 0
 
@@ -97,7 +97,7 @@ Rectangle
                 parent.ypos = mouseY;
                 parent.requestPaint();
 
-                signEndTime = new Date().getTime() - signStartTime;
+                signDuration = new Date().getTime() - signStartTime;
                 signGesture.appendSegment(segment);
             }
             onPositionChanged: {

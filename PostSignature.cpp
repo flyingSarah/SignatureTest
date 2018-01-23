@@ -3,7 +3,7 @@
 PostSignature::PostSignature(QObject *parent) : QObject(parent),
     m_manager(new QNetworkAccessManager(this))
 {
-    connect(m_manager.data(), &QNetworkAccessManager::finished, this, &PostSignature::onReplyFinished);
+    connect(m_manager, &QNetworkAccessManager::finished, this, &PostSignature::onReplyFinished);
 }
 
 QJsonDocument PostSignature::parseData(QJsonArray gesture, int time, int tries)
@@ -26,7 +26,7 @@ void PostSignature::sendPostRequest(QJsonDocument data)
     QNetworkRequest request(QUrl("https://putsreq.com/F8PsIYZ0cD3edRbaa9Rb"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
-    m_manager.data()->post(request, data.toJson());
+    m_manager->post(request, data.toJson());
     //QJsonObject testObj;
     //testObj.insert("fail", ":(");
     //QJsonDocument testDoc(testObj);

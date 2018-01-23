@@ -19,6 +19,7 @@ ApplicationWindow
     {
         target: postSignature
         onSignatureReply: {
+            busyIndicator.running = false;
             if(status)
             {
                 postRequestFailedDialog.detailedText = error;
@@ -87,7 +88,9 @@ ApplicationWindow
                 }
                 else
                 {
-                    var parsedData = postSignature.parseData(gesture, signCanvas.signEndTime, signCanvas.countClearClicks);
+                    busyIndicator.running = true;
+
+                    var parsedData = postSignature.parseData(gesture, signCanvas.signDuration, signCanvas.countClearClicks);
                     postSignature.sendPostRequest(parsedData);
                 }
                 signCanvas.reset();
@@ -123,5 +126,14 @@ ApplicationWindow
         informativeText: qsTr("Your signature has been sent.")
         icon: StandardIcon.Information
         onAccepted: close()
+    }
+
+    BusyIndicator {
+        id: busyIndicator
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: parent.height / 3
+
+        running: false
     }
 }

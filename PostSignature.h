@@ -24,5 +24,5 @@ signals:
     void signatureReply(int status, QString error);
 
 private:
-    QScopedPointer<QNetworkAccessManager> m_manager;
+    QNetworkAccessManager *m_manager;
 };
