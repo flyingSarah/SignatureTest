@@ -21,37 +21,59 @@ Rectangle
         id: signGesture
     }
 
+    TextArea
+    {
+        width: parent.width - 20
+        height: 100
+        anchors.bottom: parent.bottom
+        x: 10
+
+        //in a real app this would display the name of the merchant
+        text: "X_________________________________________________________________" +
+              "\n\nI agree to pay the above amount to <NAME_OF_MERCHANT>.";
+        color: "#444444"
+        readOnly: true
+    }
+
     Canvas
     {
         id: canvas
 
         property int xpos
         property int ypos
-        property bool triggerBeginPath
+        property int prevX
+        property int prevY
+        property double timestamp: 0
+        property double velocity: 0
         property bool triggerReset
 
         anchors.fill: parent
 
         onPaint: {
             var context = getContext("2d");
+            context.lineJoin = "round";
+            context.lineCap = "round";
+            context.strokeStyle = "#444444";
 
-            if(triggerBeginPath)
-            {
-                triggerBeginPath = false;
-                context.beginPath();
-            }
             if(triggerReset)
             {
                 triggerReset = false;
                 context.reset();
             }
 
-            context.strokeStyle = "black";
-            context.lineWidth = 1;
+            velocity = calculateVelocity(prevX, prevY, xpos, ypos, timestamp);
+            var varyingLineWidth = Math.max(Math.min(1/(velocity), 2.7), 1.7);
+
+            context.lineWidth = varyingLineWidth;
+            context.beginPath();
+            context.moveTo(prevX, prevY);
             context.lineTo(xpos, ypos);
             context.stroke();
+            timestamp = new Date().getTime();
 
             segment.push(xpos, ypos);
+            prevX = xpos;
+            prevY = ypos;
         }
 
         MouseArea
@@ -59,16 +81,16 @@ Rectangle
             anchors.fill: parent
 
             onPressed: {
-                parent.xpos = mouseX;
-                parent.ypos = mouseY;
+                parent.prevX = mouseX;
+                parent.prevY = mouseY;
+                segment = [];
+                segment.push(mouseX, mouseY);
+                parent.timestamp = new Date().getTime();
 
                 if(signStartTime == 0)
                 {
                     signStartTime = new Date().getTime();
                 }
-                segment = [];
-                parent.triggerBeginPath = true;
-                parent.requestPaint();
             }
             onReleased: {
                 parent.xpos = mouseX;
@@ -95,7 +117,14 @@ Rectangle
 
         anchors.right: parent.right
 
-        text: "clear"
+        text: qsTr("clear")
+
+        contentItem: Text {
+            text: clearButton.text
+            color: "#444444"
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+        }
 
         background: Rectangle {
             color: clearButton.down ? "light gray" : "white"
@@ -107,18 +136,6 @@ Rectangle
             clearCanvas();
             countClearClicks++;
         }
-    }
-
-    TextArea
-    {
-        width: parent.width - 20
-        height: 100
-        anchors.bottom: parent.bottom
-        x: 10
-
-        //in a real app this would display the name of the merchant
-        text: "X_________________________________________________________________" +
-              "\n\nI agree to pay the above amount to <NAME_OF_MERCHANT>.";
     }
 
     function clearCanvas()
@@ -140,5 +157,14 @@ Rectangle
     function getGesture()
     {
         return signGesture.getGesture();
+    }
+
+    function calculateVelocity(prevX, prevY, xpos, ypos, timestamp)
+    {
+        var xDist = xpos - prevX;
+        var yDist = ypos - prevY;
+        var interval = new Date().getTime() - timestamp;
+        var velocity = Math.sqrt(xDist*xDist+yDist*yDist)/interval;
+        return velocity;
     }
 }

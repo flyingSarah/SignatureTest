@@ -48,6 +48,7 @@ ApplicationWindow
             height: 50
 
             text: "Payment Amount: € 00,00"
+            color: "#444444"
         }
 
         SignCanvas
@@ -65,7 +66,14 @@ ApplicationWindow
             Layout.fillWidth: true
             height: 50
 
-            text: "pay"
+            text: qsTr("pay")
+
+            contentItem: Text {
+                text: payButton.text
+                color: "#444444"
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+            }
 
             background: Rectangle {
                 color: payButton.down ? "gray" : "light gray"
