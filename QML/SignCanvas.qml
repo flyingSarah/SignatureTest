@@ -62,7 +62,7 @@ Rectangle
             }
 
             velocity = calculateVelocity(prevX, prevY, xpos, ypos, timestamp);
-            var varyingLineWidth = Math.max(Math.min(1/(velocity), 2.7), 1.7);
+            var varyingLineWidth = Math.min(.5 / velocity, 2.5) + 1.7;
 
             context.lineWidth = varyingLineWidth;
             context.beginPath();
@@ -84,7 +84,7 @@ Rectangle
                 parent.prevX = mouseX;
                 parent.prevY = mouseY;
                 segment = [];
-                segment.push(mouseX, mouseY);
+                segment.push(parent.prevX, parent.prevY);
                 parent.timestamp = new Date().getTime();
 
                 if(signStartTime == 0)
