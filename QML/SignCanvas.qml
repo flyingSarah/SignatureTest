@@ -51,15 +51,17 @@ Rectangle
 
         onPaint: {
             var context = getContext("2d");
-            context.lineJoin = "round";
-            context.lineCap = "round";
-            context.strokeStyle = "#444444";
 
             if(triggerReset)
             {
                 triggerReset = false;
                 context.reset();
+                return;
             }
+
+            context.lineJoin = "round";
+            context.lineCap = "round";
+            context.strokeStyle = "#444444";
 
             velocity = calculateVelocity(prevX, prevY, xpos, ypos, timestamp);
             var varyingLineWidth = Math.min(.5 / velocity, 2.5) + 1.7;

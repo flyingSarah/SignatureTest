@@ -23,14 +23,25 @@ QJsonDocument PostSignature::parseData(QJsonArray gesture, int time, int tries)
 
 void PostSignature::sendPostRequest(QJsonDocument data)
 {
-    QNetworkRequest request(QUrl("https://httpbin.org/post"));
+    QNetworkRequest request(QUrl("https://putsreq.com/F8PsIYZ0cD3edRbaa9Rb"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     m_manager->post(request, data.toJson());
+    //QJsonObject testObj;
+    //testObj.insert("fail", ":(");
+    //QJsonDocument testDoc(testObj);
+    //m_manager.data()->post(request, testDoc.toJson());
 }
 
 void PostSignature::onReplyFinished(QNetworkReply *reply)
 {
+    /*if(!reply->error())
+    {
+        QByteArray responseData = reply->readAll();
+        QJsonDocument json = QJsonDocument::fromJson(responseData);
+        qDebug() << json;
+    }*/
+
     emit signatureReply(reply->error(), reply->errorString());
 
     reply->deleteLater();
