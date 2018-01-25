@@ -23,7 +23,7 @@ QJsonDocument PostSignature::parseData(QJsonArray gesture, int time, int tries)
 
 void PostSignature::sendPostRequest(QJsonDocument data)
 {
-    QNetworkRequest request(QUrl("https://putsreq.com/F8PsIYZ0cD3edRbaa9Rb"));
+    QNetworkRequest request(QUrl("https://httpbin.org/post"));
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
 
     m_manager->post(request, data.toJson());
